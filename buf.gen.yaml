@@ -1,0 +1,25 @@
+version: v1
+managed:
+  enabled: true
+  go_package_prefix:
+    default: github.com/Filescale/filescale-gRPC/gen/go
+plugins:
+  # Go generation
+  - plugin: go
+    out: gen/go
+    opt:
+      - paths=source_relative
+  - plugin: go-grpc
+    out: gen/go
+    opt:
+      - paths=source_relative
+  # Rust generation  
+  - plugin: prost
+    out: gen/rust/src
+    opt:
+      - bytes=.
+  - plugin: tonic
+    out: gen/rust/src
+    opt:
+      - no_include
+      - compile_well_known_types

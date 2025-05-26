@@ -1,0 +1,51 @@
+name: Release gRPC files
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Build Docker generator image
+        run: make build
+      
+      - name: Generate protocol code
+        run: make generate
+      
+      - name: Validate protocol
+        run: make validate
+      
+      - name: Test compilation
+        run: make test-go
+      
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref_name }}
+          release_name: Protocol ${{ github.ref_name }}
+          draft: false
+          prerelease: false
+          body: |
+            ## Protocol ${{ github.ref_name }}
+            
+            Generated protocol definitions for Filescale.
+            
+            ### Go Package
+            ```bash
+            go get github.com/Filescale/filescale-gRPC@${{ github.ref_name }}
+            ```
+            
+            ### Rust Crate
+            See generated code in `gen/rust/` directory.

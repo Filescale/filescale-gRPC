@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package filescale.v1;
+
+option go_package = "github.com/Filescale/filescale-gRPC/gen/go/filescale/v1";
+
+// Simple heartbeat service
+service HeartbeatService {
+  // Send heartbeat from client to server
+  rpc Heartbeat(HeartbeatRequest) returns (HeartbeatResponse);
+}
+
+// HeartbeatRequest body
+message HeartbeatRequest {
+  // Client identifier
+  string client_id = 1;
+
+  // Time of the heartbeat
+  int64 timestamp = 2;
+}
+
+// HeartbeatResponse body
+message HeartbeatResponse {
+  // Heartbeat acknowledged successfully
+  bool success = 1;
+
+  // Optional message from server
+  string message = 2;
+}
