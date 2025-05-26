@@ -1,0 +1,19 @@
+[package]
+name = "filescale-gRPC"
+version = "0.1.0"
+edition = "2024"
+description = "gRPC protocol definitions for Filescale distributed filesystem monitoring"
+license = "MIT"
+repository = "https://github.com/Filescale/filescale-gRPC"
+readme = "README.md"
+keywords = ["grpc", "protobuf", "filesystem", "monitoring"]
+categories = ["network-programming", "api-bindings"]
+
+[dependencies]
+prost = "0.13"
+tonic = "0.13"
+tokio = { version = "1.0", features = ["full"] }
+
+[lib]
+name = "filescale_gRPC"
+path = "gen/rust/src/lib.rs"

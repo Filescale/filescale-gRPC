@@ -1,0 +1,11 @@
+/gen/rust/target/
+*.log
+.DS_Store
+
+.vscode/
+.idea/
+*.swp
+*.swo
+
+target
+
