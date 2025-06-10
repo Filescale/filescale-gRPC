@@ -21,11 +21,13 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+// HeartbeatRequest body
 type HeartbeatRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Client identifier
-	ClientId      string `protobuf:"bytes,1,opt,name=client_id,json=clientId,proto3" json:"client_id,omitempty"`
-	Timestamp     int64  `protobuf:"varint,2,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
+	ClientId string `protobuf:"bytes,1,opt,name=client_id,json=clientId,proto3" json:"client_id,omitempty"`
+	// Time of the heartbeat
+	Timestamp     int64 `protobuf:"varint,2,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -74,6 +76,7 @@ func (x *HeartbeatRequest) GetTimestamp() int64 {
 	return 0
 }
 
+// HeartbeatResponse body
 type HeartbeatResponse struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Heartbeat acknowledged successfully
