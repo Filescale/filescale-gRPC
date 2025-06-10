@@ -1,5 +1,14 @@
 .PHONY: generate validate lint clean test dev build help
 
+
+# Get current user ID and group ID for Docker
+USER_ID := $(shell id -u)
+GROUP_ID := $(shell id -g)
+
+# Export for docker-compose
+export USER_ID
+export GROUP_ID
+
 # Build the Docker image
 build:
 	@echo "Building protocol generator image..."
@@ -9,7 +18,7 @@ build:
 # Generate code using Docker (just buf, no lib.rs creation)
 generate:
 	@echo "Generating protocol code..."
-	@docker compose run --rm generator generate
+	@docker compose run --rm generator buf generate
 	@echo "Protocol code generated successfully"
 	@echo "Creating Rust lib.rs manually..."
 	@mkdir -p gen/rust/src
@@ -19,13 +28,13 @@ generate:
 # Validate protocol files using Docker
 validate:
 	@echo "Validating protocol files..."
-	@docker compose run --rm generator lint
+	@docker compose run --rm generator buf lint
 	@echo "Validation passed"
 
 # Test Go code compilation using Docker
 test-go:
 	@echo "Testing Go compilation..."
-	@docker compose run --rm generator sh -c "cd gen/go && go mod init test && go mod tidy && go build ./..."
+	@docker compose run --rm generator sh -c "cd gen/go && go mod tidy && go build ./..."
 	@echo "Go compilation test passed"
 
 # Clean generated code
