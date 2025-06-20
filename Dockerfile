@@ -17,13 +17,6 @@ RUN mkdir -p /tmp/go && chmod -R 777 /tmp/go
 RUN go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
 RUN go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
 
-# Install Rust using rustup (gets latest version)
-RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain stable
-ENV PATH="/root/.cargo/bin:${PATH}"
-
-# Install Rust protoc plugins and copy them to global location
-RUN cargo install protoc-gen-prost protoc-gen-tonic
-RUN cp /root/.cargo/bin/protoc-gen-* /usr/local/bin/
 
 # Create a non-root user with same UID/GID as host user (if provided)
 ARG USER_ID=1000
@@ -35,6 +28,15 @@ RUN chown -R devuser:devuser /go
 
 # Give devuser sudo access
 RUN echo "devuser ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+
+USER devuser
+
+# Install Rust using rustup (gets latest version)
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain stable
+ENV PATH="/home/devuser/.cargo/bin:${PATH}"
+
+# Install Rust protoc plugins and copy them to global location
+RUN cargo install protoc-gen-prost protoc-gen-tonic
 
 WORKDIR /workspace
 

@@ -1,5 +1,5 @@
 [package]
-name = "filescale-gRPC"
+name = "filescale-grpc"
 version = "0.1.0"
 edition = "2024"
 description = "gRPC protocol definitions for Filescale distributed filesystem monitoring"
@@ -11,9 +11,9 @@ categories = ["network-programming", "api-bindings"]
 
 [dependencies]
 prost = "0.13"
-tonic = "0.13"
+tonic = "0.12"
 tokio = { version = "1.0", features = ["full"] }
 
 [lib]
-name = "filescale_gRPC"
-path = "gen/rust/src/lib.rs"
+name = "filescale_grpc"
+path = "src/lib.rs"

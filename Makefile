@@ -20,10 +20,9 @@ generate:
 	@echo "Generating protocol code..."
 	@docker compose run --rm generator buf generate
 	@echo "Protocol code generated successfully"
-	@echo "Creating Rust lib.rs manually..."
-	@mkdir -p gen/rust/src
-	@echo 'pub mod filescale { pub mod v1 { tonic::include_proto!("filescale.v1"); } } pub use filescale::v1::*;' > gen/rust/src/lib.rs
-	@echo "Rust lib.rs created"
+	# @echo "Building Rust protocol code in container..."
+	# @docker compose run --rm generator sh -c "cargo build --release"
+	# @echo "Rust protocol code built successfully"
 
 # Validate protocol files using Docker
 validate:
