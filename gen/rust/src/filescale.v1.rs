@@ -3,21 +3,29 @@
 /// HeartbeatRequest body
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct HeartbeatRequest {
-    /// Client identifier
+    /// Client secret
     #[prost(string, tag="1")]
-    pub client_id: ::prost::alloc::string::String,
+    pub client_secret: ::prost::alloc::string::String,
     /// Time of the heartbeat
     #[prost(int64, tag="2")]
     pub timestamp: i64,
 }
 /// HeartbeatResponse body
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct HeartbeatResponse {
-    /// Heartbeat acknowledged successfully
-    #[prost(bool, tag="1")]
-    pub success: bool,
-    /// Optional message from server
-    #[prost(string, tag="2")]
-    pub message: ::prost::alloc::string::String,
+}
+/// Request from client to server to register
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct RegisterRequest {
+    /// Client id
+    #[prost(string, tag="1")]
+    pub client_id: ::prost::alloc::string::String,
+}
+/// response containing secret to identify the client from now on
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct RegisterResponse {
+    /// Generated secret for the client
+    #[prost(string, tag="1")]
+    pub client_secret: ::prost::alloc::string::String,
 }
 // @@protoc_insertion_point(module)

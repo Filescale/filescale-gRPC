@@ -12,18 +12,30 @@ service HeartbeatService {
 
 // HeartbeatRequest body
 message HeartbeatRequest {
-  // Client identifier
-  string client_id = 1;
+  // Client secret
+  string client_secret = 1;
 
   // Time of the heartbeat
   int64 timestamp = 2;
 }
 
 // HeartbeatResponse body
-message HeartbeatResponse {
-  // Heartbeat acknowledged successfully
-  bool success = 1;
+message HeartbeatResponse {}
 
-  // Optional message from server
-  string message = 2;
+// Service to register client at server
+service RegisterService {
+  // register client
+  rpc Register(RegisterRequest) returns (RegisterResponse);
+}
+
+// Request from client to server to register
+message RegisterRequest {
+  // Client id
+  string client_id = 1;
+}
+
+// response containing secret to identify the client from now on
+message RegisterResponse {
+  // Generated secret for the client
+  string client_secret = 1;
 }
