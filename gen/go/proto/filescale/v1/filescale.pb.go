@@ -24,8 +24,6 @@ const (
 // HeartbeatRequest body
 type HeartbeatRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// Client secret
-	ClientSecret string `protobuf:"bytes,1,opt,name=client_secret,json=clientSecret,proto3" json:"client_secret,omitempty"`
 	// Time of the heartbeat
 	Timestamp     int64 `protobuf:"varint,2,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -60,13 +58,6 @@ func (x *HeartbeatRequest) ProtoReflect() protoreflect.Message {
 // Deprecated: Use HeartbeatRequest.ProtoReflect.Descriptor instead.
 func (*HeartbeatRequest) Descriptor() ([]byte, []int) {
 	return file_proto_filescale_v1_filescale_proto_rawDescGZIP(), []int{0}
-}
-
-func (x *HeartbeatRequest) GetClientSecret() string {
-	if x != nil {
-		return x.ClientSecret
-	}
-	return ""
 }
 
 func (x *HeartbeatRequest) GetTimestamp() int64 {
@@ -209,9 +200,8 @@ var File_proto_filescale_v1_filescale_proto protoreflect.FileDescriptor
 
 const file_proto_filescale_v1_filescale_proto_rawDesc = "" +
 	"\n" +
-	"\"proto/filescale/v1/filescale.proto\x12\ffilescale.v1\"U\n" +
-	"\x10HeartbeatRequest\x12#\n" +
-	"\rclient_secret\x18\x01 \x01(\tR\fclientSecret\x12\x1c\n" +
+	"\"proto/filescale/v1/filescale.proto\x12\ffilescale.v1\"0\n" +
+	"\x10HeartbeatRequest\x12\x1c\n" +
 	"\ttimestamp\x18\x02 \x01(\x03R\ttimestamp\"\x13\n" +
 	"\x11HeartbeatResponse\".\n" +
 	"\x0fRegisterRequest\x12\x1b\n" +

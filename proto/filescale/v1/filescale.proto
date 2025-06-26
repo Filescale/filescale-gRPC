@@ -12,9 +12,6 @@ service HeartbeatService {
 
 // HeartbeatRequest body
 message HeartbeatRequest {
-  // Client secret
-  string client_secret = 1;
-
   // Time of the heartbeat
   int64 timestamp = 2;
 }
