@@ -19,6 +19,108 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
+	CommunicationService_Stream_FullMethodName = "/filescale.v1.CommunicationService/Stream"
+)
+
+// CommunicationServiceClient is the client API for CommunicationService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// service for bidirectional communication
+type CommunicationServiceClient interface {
+	// stream channel
+	Stream(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[StreamRequest, StreamResponse], error)
+}
+
+type communicationServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewCommunicationServiceClient(cc grpc.ClientConnInterface) CommunicationServiceClient {
+	return &communicationServiceClient{cc}
+}
+
+func (c *communicationServiceClient) Stream(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[StreamRequest, StreamResponse], error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	stream, err := c.cc.NewStream(ctx, &CommunicationService_ServiceDesc.Streams[0], CommunicationService_Stream_FullMethodName, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &grpc.GenericClientStream[StreamRequest, StreamResponse]{ClientStream: stream}
+	return x, nil
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type CommunicationService_StreamClient = grpc.BidiStreamingClient[StreamRequest, StreamResponse]
+
+// CommunicationServiceServer is the server API for CommunicationService service.
+// All implementations must embed UnimplementedCommunicationServiceServer
+// for forward compatibility.
+//
+// service for bidirectional communication
+type CommunicationServiceServer interface {
+	// stream channel
+	Stream(grpc.BidiStreamingServer[StreamRequest, StreamResponse]) error
+	mustEmbedUnimplementedCommunicationServiceServer()
+}
+
+// UnimplementedCommunicationServiceServer must be embedded to have
+// forward compatible implementations.
+//
+// NOTE: this should be embedded by value instead of pointer to avoid a nil
+// pointer dereference when methods are called.
+type UnimplementedCommunicationServiceServer struct{}
+
+func (UnimplementedCommunicationServiceServer) Stream(grpc.BidiStreamingServer[StreamRequest, StreamResponse]) error {
+	return status.Errorf(codes.Unimplemented, "method Stream not implemented")
+}
+func (UnimplementedCommunicationServiceServer) mustEmbedUnimplementedCommunicationServiceServer() {}
+func (UnimplementedCommunicationServiceServer) testEmbeddedByValue()                              {}
+
+// UnsafeCommunicationServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to CommunicationServiceServer will
+// result in compilation errors.
+type UnsafeCommunicationServiceServer interface {
+	mustEmbedUnimplementedCommunicationServiceServer()
+}
+
+func RegisterCommunicationServiceServer(s grpc.ServiceRegistrar, srv CommunicationServiceServer) {
+	// If the following call pancis, it indicates UnimplementedCommunicationServiceServer was
+	// embedded by pointer and is nil.  This will cause panics if an
+	// unimplemented method is ever invoked, so we test this at initialization
+	// time to prevent it from happening at runtime later due to I/O.
+	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
+		t.testEmbeddedByValue()
+	}
+	s.RegisterService(&CommunicationService_ServiceDesc, srv)
+}
+
+func _CommunicationService_Stream_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(CommunicationServiceServer).Stream(&grpc.GenericServerStream[StreamRequest, StreamResponse]{ServerStream: stream})
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type CommunicationService_StreamServer = grpc.BidiStreamingServer[StreamRequest, StreamResponse]
+
+// CommunicationService_ServiceDesc is the grpc.ServiceDesc for CommunicationService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var CommunicationService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "filescale.v1.CommunicationService",
+	HandlerType: (*CommunicationServiceServer)(nil),
+	Methods:     []grpc.MethodDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "Stream",
+			Handler:       _CommunicationService_Stream_Handler,
+			ServerStreams: true,
+			ClientStreams: true,
+		},
+	},
+	Metadata: "proto/filescale/v1/filescale.proto",
+}
+
+const (
 	HeartbeatService_Heartbeat_FullMethodName = "/filescale.v1.HeartbeatService/Heartbeat"
 )
 

@@ -4,6 +4,18 @@ package filescale.v1;
 
 option go_package = "github.com/Filescale/filescale-gRPC/gen/go/filescale/v1";
 
+// service for bidirectional communication
+service CommunicationService {
+  // stream channel
+  rpc Stream(stream StreamRequest) returns (stream StreamResponse);
+}
+
+// empty for now, just connection
+message StreamRequest {}
+
+// empty for now, just connection
+message StreamResponse {}
+
 // Simple heartbeat service
 service HeartbeatService {
   // Send heartbeat from client to server
