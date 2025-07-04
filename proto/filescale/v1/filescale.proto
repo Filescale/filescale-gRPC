@@ -16,21 +16,6 @@ message StreamRequest {}
 // empty for now, just connection
 message StreamResponse {}
 
-// Simple heartbeat service
-service HeartbeatService {
-  // Send heartbeat from client to server
-  rpc Heartbeat(HeartbeatRequest) returns (HeartbeatResponse);
-}
-
-// HeartbeatRequest body
-message HeartbeatRequest {
-  // Time of the heartbeat
-  int64 timestamp = 2;
-}
-
-// HeartbeatResponse body
-message HeartbeatResponse {}
-
 // Service to register client at server
 service RegisterService {
   // register client

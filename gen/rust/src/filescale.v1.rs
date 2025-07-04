@@ -8,17 +8,6 @@ pub struct StreamRequest {
 #[derive(Clone, Copy, PartialEq, ::prost::Message)]
 pub struct StreamResponse {
 }
-/// HeartbeatRequest body
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct HeartbeatRequest {
-    /// Time of the heartbeat
-    #[prost(int64, tag="2")]
-    pub timestamp: i64,
-}
-/// HeartbeatResponse body
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
-pub struct HeartbeatResponse {
-}
 /// Request from client to server to register
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct RegisterRequest {

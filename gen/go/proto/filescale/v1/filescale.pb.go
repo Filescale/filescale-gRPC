@@ -95,89 +95,6 @@ func (*StreamResponse) Descriptor() ([]byte, []int) {
 	return file_proto_filescale_v1_filescale_proto_rawDescGZIP(), []int{1}
 }
 
-// HeartbeatRequest body
-type HeartbeatRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// Time of the heartbeat
-	Timestamp     int64 `protobuf:"varint,2,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *HeartbeatRequest) Reset() {
-	*x = HeartbeatRequest{}
-	mi := &file_proto_filescale_v1_filescale_proto_msgTypes[2]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *HeartbeatRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*HeartbeatRequest) ProtoMessage() {}
-
-func (x *HeartbeatRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_filescale_v1_filescale_proto_msgTypes[2]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use HeartbeatRequest.ProtoReflect.Descriptor instead.
-func (*HeartbeatRequest) Descriptor() ([]byte, []int) {
-	return file_proto_filescale_v1_filescale_proto_rawDescGZIP(), []int{2}
-}
-
-func (x *HeartbeatRequest) GetTimestamp() int64 {
-	if x != nil {
-		return x.Timestamp
-	}
-	return 0
-}
-
-// HeartbeatResponse body
-type HeartbeatResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *HeartbeatResponse) Reset() {
-	*x = HeartbeatResponse{}
-	mi := &file_proto_filescale_v1_filescale_proto_msgTypes[3]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *HeartbeatResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*HeartbeatResponse) ProtoMessage() {}
-
-func (x *HeartbeatResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_filescale_v1_filescale_proto_msgTypes[3]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use HeartbeatResponse.ProtoReflect.Descriptor instead.
-func (*HeartbeatResponse) Descriptor() ([]byte, []int) {
-	return file_proto_filescale_v1_filescale_proto_rawDescGZIP(), []int{3}
-}
-
 // Request from client to server to register
 type RegisterRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
@@ -189,7 +106,7 @@ type RegisterRequest struct {
 
 func (x *RegisterRequest) Reset() {
 	*x = RegisterRequest{}
-	mi := &file_proto_filescale_v1_filescale_proto_msgTypes[4]
+	mi := &file_proto_filescale_v1_filescale_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -201,7 +118,7 @@ func (x *RegisterRequest) String() string {
 func (*RegisterRequest) ProtoMessage() {}
 
 func (x *RegisterRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_filescale_v1_filescale_proto_msgTypes[4]
+	mi := &file_proto_filescale_v1_filescale_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -214,7 +131,7 @@ func (x *RegisterRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RegisterRequest.ProtoReflect.Descriptor instead.
 func (*RegisterRequest) Descriptor() ([]byte, []int) {
-	return file_proto_filescale_v1_filescale_proto_rawDescGZIP(), []int{4}
+	return file_proto_filescale_v1_filescale_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *RegisterRequest) GetClientId() string {
@@ -235,7 +152,7 @@ type RegisterResponse struct {
 
 func (x *RegisterResponse) Reset() {
 	*x = RegisterResponse{}
-	mi := &file_proto_filescale_v1_filescale_proto_msgTypes[5]
+	mi := &file_proto_filescale_v1_filescale_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -247,7 +164,7 @@ func (x *RegisterResponse) String() string {
 func (*RegisterResponse) ProtoMessage() {}
 
 func (x *RegisterResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_filescale_v1_filescale_proto_msgTypes[5]
+	mi := &file_proto_filescale_v1_filescale_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -260,7 +177,7 @@ func (x *RegisterResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RegisterResponse.ProtoReflect.Descriptor instead.
 func (*RegisterResponse) Descriptor() ([]byte, []int) {
-	return file_proto_filescale_v1_filescale_proto_rawDescGZIP(), []int{5}
+	return file_proto_filescale_v1_filescale_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *RegisterResponse) GetClientSecret() string {
@@ -276,18 +193,13 @@ const file_proto_filescale_v1_filescale_proto_rawDesc = "" +
 	"\n" +
 	"\"proto/filescale/v1/filescale.proto\x12\ffilescale.v1\"\x0f\n" +
 	"\rStreamRequest\"\x10\n" +
-	"\x0eStreamResponse\"0\n" +
-	"\x10HeartbeatRequest\x12\x1c\n" +
-	"\ttimestamp\x18\x02 \x01(\x03R\ttimestamp\"\x13\n" +
-	"\x11HeartbeatResponse\".\n" +
+	"\x0eStreamResponse\".\n" +
 	"\x0fRegisterRequest\x12\x1b\n" +
 	"\tclient_id\x18\x01 \x01(\tR\bclientId\"7\n" +
 	"\x10RegisterResponse\x12#\n" +
 	"\rclient_secret\x18\x01 \x01(\tR\fclientSecret2_\n" +
 	"\x14CommunicationService\x12G\n" +
-	"\x06Stream\x12\x1b.filescale.v1.StreamRequest\x1a\x1c.filescale.v1.StreamResponse(\x010\x012`\n" +
-	"\x10HeartbeatService\x12L\n" +
-	"\tHeartbeat\x12\x1e.filescale.v1.HeartbeatRequest\x1a\x1f.filescale.v1.HeartbeatResponse2\\\n" +
+	"\x06Stream\x12\x1b.filescale.v1.StreamRequest\x1a\x1c.filescale.v1.StreamResponse(\x010\x012\\\n" +
 	"\x0fRegisterService\x12I\n" +
 	"\bRegister\x12\x1d.filescale.v1.RegisterRequest\x1a\x1e.filescale.v1.RegisterResponseB\xbe\x01\n" +
 	"\x10com.filescale.v1B\x0eFilescaleProtoP\x01ZIgithub.com/Filescale/filescale-gRPC/gen/go/proto/filescale/v1;filescalev1\xa2\x02\x03FXX\xaa\x02\fFilescale.V1\xca\x02\fFilescale\\V1\xe2\x02\x18Filescale\\V1\\GPBMetadata\xea\x02\rFilescale::V1b\x06proto3"
@@ -304,24 +216,20 @@ func file_proto_filescale_v1_filescale_proto_rawDescGZIP() []byte {
 	return file_proto_filescale_v1_filescale_proto_rawDescData
 }
 
-var file_proto_filescale_v1_filescale_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_proto_filescale_v1_filescale_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_proto_filescale_v1_filescale_proto_goTypes = []any{
-	(*StreamRequest)(nil),     // 0: filescale.v1.StreamRequest
-	(*StreamResponse)(nil),    // 1: filescale.v1.StreamResponse
-	(*HeartbeatRequest)(nil),  // 2: filescale.v1.HeartbeatRequest
-	(*HeartbeatResponse)(nil), // 3: filescale.v1.HeartbeatResponse
-	(*RegisterRequest)(nil),   // 4: filescale.v1.RegisterRequest
-	(*RegisterResponse)(nil),  // 5: filescale.v1.RegisterResponse
+	(*StreamRequest)(nil),    // 0: filescale.v1.StreamRequest
+	(*StreamResponse)(nil),   // 1: filescale.v1.StreamResponse
+	(*RegisterRequest)(nil),  // 2: filescale.v1.RegisterRequest
+	(*RegisterResponse)(nil), // 3: filescale.v1.RegisterResponse
 }
 var file_proto_filescale_v1_filescale_proto_depIdxs = []int32{
 	0, // 0: filescale.v1.CommunicationService.Stream:input_type -> filescale.v1.StreamRequest
-	2, // 1: filescale.v1.HeartbeatService.Heartbeat:input_type -> filescale.v1.HeartbeatRequest
-	4, // 2: filescale.v1.RegisterService.Register:input_type -> filescale.v1.RegisterRequest
-	1, // 3: filescale.v1.CommunicationService.Stream:output_type -> filescale.v1.StreamResponse
-	3, // 4: filescale.v1.HeartbeatService.Heartbeat:output_type -> filescale.v1.HeartbeatResponse
-	5, // 5: filescale.v1.RegisterService.Register:output_type -> filescale.v1.RegisterResponse
-	3, // [3:6] is the sub-list for method output_type
-	0, // [0:3] is the sub-list for method input_type
+	2, // 1: filescale.v1.RegisterService.Register:input_type -> filescale.v1.RegisterRequest
+	1, // 2: filescale.v1.CommunicationService.Stream:output_type -> filescale.v1.StreamResponse
+	3, // 3: filescale.v1.RegisterService.Register:output_type -> filescale.v1.RegisterResponse
+	2, // [2:4] is the sub-list for method output_type
+	0, // [0:2] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
@@ -338,9 +246,9 @@ func file_proto_filescale_v1_filescale_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_filescale_v1_filescale_proto_rawDesc), len(file_proto_filescale_v1_filescale_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   6,
+			NumMessages:   4,
 			NumExtensions: 0,
-			NumServices:   3,
+			NumServices:   2,
 		},
 		GoTypes:           file_proto_filescale_v1_filescale_proto_goTypes,
 		DependencyIndexes: file_proto_filescale_v1_filescale_proto_depIdxs,
