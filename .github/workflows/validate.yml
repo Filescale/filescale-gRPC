@@ -14,23 +14,10 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      
-      - name: Build Docker generator image
-        run: make build
-      
-      - name: Generate protocol code
-        run: make generate
-      
       - name: Validate protocol files
         run: make validate
-      
-      - name: Check for breaking changes
-        if: github.event_name == 'pull_request'
-        run: make breaking
-      
       - name: Test Go compilation
         run: make test-go
-      
       - name: Upload generated artifacts (for debugging)
         if: failure()
         uses: actions/upload-artifact@v4

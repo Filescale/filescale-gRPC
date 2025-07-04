@@ -19,110 +19,104 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	HeartbeatService_Heartbeat_FullMethodName = "/filescale.v1.HeartbeatService/Heartbeat"
+	CommunicationService_Stream_FullMethodName = "/filescale.v1.CommunicationService/Stream"
 )
 
-// HeartbeatServiceClient is the client API for HeartbeatService service.
+// CommunicationServiceClient is the client API for CommunicationService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 //
-// Simple heartbeat service
-type HeartbeatServiceClient interface {
-	// Send heartbeat from client to server
-	Heartbeat(ctx context.Context, in *HeartbeatRequest, opts ...grpc.CallOption) (*HeartbeatResponse, error)
+// service for bidirectional communication
+type CommunicationServiceClient interface {
+	// stream channel
+	Stream(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[StreamRequest, StreamResponse], error)
 }
 
-type heartbeatServiceClient struct {
+type communicationServiceClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewHeartbeatServiceClient(cc grpc.ClientConnInterface) HeartbeatServiceClient {
-	return &heartbeatServiceClient{cc}
+func NewCommunicationServiceClient(cc grpc.ClientConnInterface) CommunicationServiceClient {
+	return &communicationServiceClient{cc}
 }
 
-func (c *heartbeatServiceClient) Heartbeat(ctx context.Context, in *HeartbeatRequest, opts ...grpc.CallOption) (*HeartbeatResponse, error) {
+func (c *communicationServiceClient) Stream(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[StreamRequest, StreamResponse], error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(HeartbeatResponse)
-	err := c.cc.Invoke(ctx, HeartbeatService_Heartbeat_FullMethodName, in, out, cOpts...)
+	stream, err := c.cc.NewStream(ctx, &CommunicationService_ServiceDesc.Streams[0], CommunicationService_Stream_FullMethodName, cOpts...)
 	if err != nil {
 		return nil, err
 	}
-	return out, nil
+	x := &grpc.GenericClientStream[StreamRequest, StreamResponse]{ClientStream: stream}
+	return x, nil
 }
 
-// HeartbeatServiceServer is the server API for HeartbeatService service.
-// All implementations must embed UnimplementedHeartbeatServiceServer
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type CommunicationService_StreamClient = grpc.BidiStreamingClient[StreamRequest, StreamResponse]
+
+// CommunicationServiceServer is the server API for CommunicationService service.
+// All implementations must embed UnimplementedCommunicationServiceServer
 // for forward compatibility.
 //
-// Simple heartbeat service
-type HeartbeatServiceServer interface {
-	// Send heartbeat from client to server
-	Heartbeat(context.Context, *HeartbeatRequest) (*HeartbeatResponse, error)
-	mustEmbedUnimplementedHeartbeatServiceServer()
+// service for bidirectional communication
+type CommunicationServiceServer interface {
+	// stream channel
+	Stream(grpc.BidiStreamingServer[StreamRequest, StreamResponse]) error
+	mustEmbedUnimplementedCommunicationServiceServer()
 }
 
-// UnimplementedHeartbeatServiceServer must be embedded to have
+// UnimplementedCommunicationServiceServer must be embedded to have
 // forward compatible implementations.
 //
 // NOTE: this should be embedded by value instead of pointer to avoid a nil
 // pointer dereference when methods are called.
-type UnimplementedHeartbeatServiceServer struct{}
+type UnimplementedCommunicationServiceServer struct{}
 
-func (UnimplementedHeartbeatServiceServer) Heartbeat(context.Context, *HeartbeatRequest) (*HeartbeatResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Heartbeat not implemented")
+func (UnimplementedCommunicationServiceServer) Stream(grpc.BidiStreamingServer[StreamRequest, StreamResponse]) error {
+	return status.Errorf(codes.Unimplemented, "method Stream not implemented")
 }
-func (UnimplementedHeartbeatServiceServer) mustEmbedUnimplementedHeartbeatServiceServer() {}
-func (UnimplementedHeartbeatServiceServer) testEmbeddedByValue()                          {}
+func (UnimplementedCommunicationServiceServer) mustEmbedUnimplementedCommunicationServiceServer() {}
+func (UnimplementedCommunicationServiceServer) testEmbeddedByValue()                              {}
 
-// UnsafeHeartbeatServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to HeartbeatServiceServer will
+// UnsafeCommunicationServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to CommunicationServiceServer will
 // result in compilation errors.
-type UnsafeHeartbeatServiceServer interface {
-	mustEmbedUnimplementedHeartbeatServiceServer()
+type UnsafeCommunicationServiceServer interface {
+	mustEmbedUnimplementedCommunicationServiceServer()
 }
 
-func RegisterHeartbeatServiceServer(s grpc.ServiceRegistrar, srv HeartbeatServiceServer) {
-	// If the following call pancis, it indicates UnimplementedHeartbeatServiceServer was
+func RegisterCommunicationServiceServer(s grpc.ServiceRegistrar, srv CommunicationServiceServer) {
+	// If the following call pancis, it indicates UnimplementedCommunicationServiceServer was
 	// embedded by pointer and is nil.  This will cause panics if an
 	// unimplemented method is ever invoked, so we test this at initialization
 	// time to prevent it from happening at runtime later due to I/O.
 	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
 		t.testEmbeddedByValue()
 	}
-	s.RegisterService(&HeartbeatService_ServiceDesc, srv)
+	s.RegisterService(&CommunicationService_ServiceDesc, srv)
 }
 
-func _HeartbeatService_Heartbeat_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(HeartbeatRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(HeartbeatServiceServer).Heartbeat(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: HeartbeatService_Heartbeat_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(HeartbeatServiceServer).Heartbeat(ctx, req.(*HeartbeatRequest))
-	}
-	return interceptor(ctx, in, info, handler)
+func _CommunicationService_Stream_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(CommunicationServiceServer).Stream(&grpc.GenericServerStream[StreamRequest, StreamResponse]{ServerStream: stream})
 }
 
-// HeartbeatService_ServiceDesc is the grpc.ServiceDesc for HeartbeatService service.
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type CommunicationService_StreamServer = grpc.BidiStreamingServer[StreamRequest, StreamResponse]
+
+// CommunicationService_ServiceDesc is the grpc.ServiceDesc for CommunicationService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var HeartbeatService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "filescale.v1.HeartbeatService",
-	HandlerType: (*HeartbeatServiceServer)(nil),
-	Methods: []grpc.MethodDesc{
+var CommunicationService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "filescale.v1.CommunicationService",
+	HandlerType: (*CommunicationServiceServer)(nil),
+	Methods:     []grpc.MethodDesc{},
+	Streams: []grpc.StreamDesc{
 		{
-			MethodName: "Heartbeat",
-			Handler:    _HeartbeatService_Heartbeat_Handler,
+			StreamName:    "Stream",
+			Handler:       _CommunicationService_Stream_Handler,
+			ServerStreams: true,
+			ClientStreams: true,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
 	Metadata: "proto/filescale/v1/filescale.proto",
 }
 

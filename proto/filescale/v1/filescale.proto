@@ -4,20 +4,17 @@ package filescale.v1;
 
 option go_package = "github.com/Filescale/filescale-gRPC/gen/go/filescale/v1";
 
-// Simple heartbeat service
-service HeartbeatService {
-  // Send heartbeat from client to server
-  rpc Heartbeat(HeartbeatRequest) returns (HeartbeatResponse);
+// service for bidirectional communication
+service CommunicationService {
+  // stream channel
+  rpc Stream(stream StreamRequest) returns (stream StreamResponse);
 }
 
-// HeartbeatRequest body
-message HeartbeatRequest {
-  // Time of the heartbeat
-  int64 timestamp = 2;
-}
+// empty for now, just connection
+message StreamRequest {}
 
-// HeartbeatResponse body
-message HeartbeatResponse {}
+// empty for now, just connection
+message StreamResponse {}
 
 // Service to register client at server
 service RegisterService {

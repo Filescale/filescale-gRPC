@@ -1,6 +1,6 @@
 // @generated
 /// Generated client implementations.
-pub mod heartbeat_service_client {
+pub mod communication_service_client {
     #![allow(
         unused_variables,
         dead_code,
@@ -10,11 +10,13 @@ pub mod heartbeat_service_client {
     )]
     use tonic::codegen::*;
     use tonic::codegen::http::Uri;
+    /** service for bidirectional communication
+*/
     #[derive(Debug, Clone)]
-    pub struct HeartbeatServiceClient<T> {
+    pub struct CommunicationServiceClient<T> {
         inner: tonic::client::Grpc<T>,
     }
-    impl HeartbeatServiceClient<tonic::transport::Channel> {
+    impl CommunicationServiceClient<tonic::transport::Channel> {
         /// Attempt to create a new client by connecting to a given endpoint.
         pub async fn connect<D>(dst: D) -> Result<Self, tonic::transport::Error>
         where
@@ -25,7 +27,7 @@ pub mod heartbeat_service_client {
             Ok(Self::new(conn))
         }
     }
-    impl<T> HeartbeatServiceClient<T>
+    impl<T> CommunicationServiceClient<T>
     where
         T: tonic::client::GrpcService<tonic::body::BoxBody>,
         T::Error: Into<StdError>,
@@ -43,7 +45,7 @@ pub mod heartbeat_service_client {
         pub fn with_interceptor<F>(
             inner: T,
             interceptor: F,
-        ) -> HeartbeatServiceClient<InterceptedService<T, F>>
+        ) -> CommunicationServiceClient<InterceptedService<T, F>>
         where
             F: tonic::service::Interceptor,
             T::ResponseBody: Default,
@@ -57,7 +59,7 @@ pub mod heartbeat_service_client {
                 http::Request<tonic::body::BoxBody>,
             >>::Error: Into<StdError> + std::marker::Send + std::marker::Sync,
         {
-            HeartbeatServiceClient::new(InterceptedService::new(inner, interceptor))
+            CommunicationServiceClient::new(InterceptedService::new(inner, interceptor))
         }
         /// Compress requests with the given encoding.
         ///
@@ -90,11 +92,13 @@ pub mod heartbeat_service_client {
             self.inner = self.inner.max_encoding_message_size(limit);
             self
         }
-        pub async fn heartbeat(
+        /** stream channel
+*/
+        pub async fn stream(
             &mut self,
-            request: impl tonic::IntoRequest<super::HeartbeatRequest>,
+            request: impl tonic::IntoStreamingRequest<Message = super::StreamRequest>,
         ) -> std::result::Result<
-            tonic::Response<super::HeartbeatResponse>,
+            tonic::Response<tonic::codec::Streaming<super::StreamResponse>>,
             tonic::Status,
         > {
             self.inner
@@ -107,17 +111,17 @@ pub mod heartbeat_service_client {
                 })?;
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
-                "/filescale.v1.HeartbeatService/Heartbeat",
+                "/filescale.v1.CommunicationService/Stream",
             );
-            let mut req = request.into_request();
+            let mut req = request.into_streaming_request();
             req.extensions_mut()
-                .insert(GrpcMethod::new("filescale.v1.HeartbeatService", "Heartbeat"));
-            self.inner.unary(req, path, codec).await
+                .insert(GrpcMethod::new("filescale.v1.CommunicationService", "Stream"));
+            self.inner.streaming(req, path, codec).await
         }
     }
 }
 /// Generated server implementations.
-pub mod heartbeat_service_server {
+pub mod communication_service_server {
     #![allow(
         unused_variables,
         dead_code,
@@ -126,26 +130,33 @@ pub mod heartbeat_service_server {
         clippy::let_unit_value,
     )]
     use tonic::codegen::*;
-    /// Generated trait containing gRPC methods that should be implemented for use with HeartbeatServiceServer.
+    /// Generated trait containing gRPC methods that should be implemented for use with CommunicationServiceServer.
     #[async_trait]
-    pub trait HeartbeatService: std::marker::Send + std::marker::Sync + 'static {
-        async fn heartbeat(
+    pub trait CommunicationService: std::marker::Send + std::marker::Sync + 'static {
+        /// Server streaming response type for the Stream method.
+        type StreamStream: tonic::codegen::tokio_stream::Stream<
+                Item = std::result::Result<super::StreamResponse, tonic::Status>,
+            >
+            + std::marker::Send
+            + 'static;
+        /** stream channel
+*/
+        async fn stream(
             &self,
-            request: tonic::Request<super::HeartbeatRequest>,
-        ) -> std::result::Result<
-            tonic::Response<super::HeartbeatResponse>,
-            tonic::Status,
-        >;
+            request: tonic::Request<tonic::Streaming<super::StreamRequest>>,
+        ) -> std::result::Result<tonic::Response<Self::StreamStream>, tonic::Status>;
     }
+    /** service for bidirectional communication
+*/
     #[derive(Debug)]
-    pub struct HeartbeatServiceServer<T> {
+    pub struct CommunicationServiceServer<T> {
         inner: Arc<T>,
         accept_compression_encodings: EnabledCompressionEncodings,
         send_compression_encodings: EnabledCompressionEncodings,
         max_decoding_message_size: Option<usize>,
         max_encoding_message_size: Option<usize>,
     }
-    impl<T> HeartbeatServiceServer<T> {
+    impl<T> CommunicationServiceServer<T> {
         pub fn new(inner: T) -> Self {
             Self::from_arc(Arc::new(inner))
         }
@@ -196,9 +207,10 @@ pub mod heartbeat_service_server {
             self
         }
     }
-    impl<T, B> tonic::codegen::Service<http::Request<B>> for HeartbeatServiceServer<T>
+    impl<T, B> tonic::codegen::Service<http::Request<B>>
+    for CommunicationServiceServer<T>
     where
-        T: HeartbeatService,
+        T: CommunicationService,
         B: Body + std::marker::Send + 'static,
         B::Error: Into<StdError> + std::marker::Send + 'static,
     {
@@ -213,25 +225,28 @@ pub mod heartbeat_service_server {
         }
         fn call(&mut self, req: http::Request<B>) -> Self::Future {
             match req.uri().path() {
-                "/filescale.v1.HeartbeatService/Heartbeat" => {
+                "/filescale.v1.CommunicationService/Stream" => {
                     #[allow(non_camel_case_types)]
-                    struct HeartbeatSvc<T: HeartbeatService>(pub Arc<T>);
+                    struct StreamSvc<T: CommunicationService>(pub Arc<T>);
                     impl<
-                        T: HeartbeatService,
-                    > tonic::server::UnaryService<super::HeartbeatRequest>
-                    for HeartbeatSvc<T> {
-                        type Response = super::HeartbeatResponse;
+                        T: CommunicationService,
+                    > tonic::server::StreamingService<super::StreamRequest>
+                    for StreamSvc<T> {
+                        type Response = super::StreamResponse;
+                        type ResponseStream = T::StreamStream;
                         type Future = BoxFuture<
-                            tonic::Response<Self::Response>,
+                            tonic::Response<Self::ResponseStream>,
                             tonic::Status,
                         >;
                         fn call(
                             &mut self,
-                            request: tonic::Request<super::HeartbeatRequest>,
+                            request: tonic::Request<
+                                tonic::Streaming<super::StreamRequest>,
+                            >,
                         ) -> Self::Future {
                             let inner = Arc::clone(&self.0);
                             let fut = async move {
-                                <T as HeartbeatService>::heartbeat(&inner, request).await
+                                <T as CommunicationService>::stream(&inner, request).await
                             };
                             Box::pin(fut)
                         }
@@ -242,7 +257,7 @@ pub mod heartbeat_service_server {
                     let max_encoding_message_size = self.max_encoding_message_size;
                     let inner = self.inner.clone();
                     let fut = async move {
-                        let method = HeartbeatSvc(inner);
+                        let method = StreamSvc(inner);
                         let codec = tonic::codec::ProstCodec::default();
                         let mut grpc = tonic::server::Grpc::new(codec)
                             .apply_compression_config(
@@ -253,7 +268,7 @@ pub mod heartbeat_service_server {
                                 max_decoding_message_size,
                                 max_encoding_message_size,
                             );
-                        let res = grpc.unary(method, req).await;
+                        let res = grpc.streaming(method, req).await;
                         Ok(res)
                     };
                     Box::pin(fut)
@@ -278,7 +293,7 @@ pub mod heartbeat_service_server {
             }
         }
     }
-    impl<T> Clone for HeartbeatServiceServer<T> {
+    impl<T> Clone for CommunicationServiceServer<T> {
         fn clone(&self) -> Self {
             let inner = self.inner.clone();
             Self {
@@ -291,8 +306,8 @@ pub mod heartbeat_service_server {
         }
     }
     /// Generated gRPC service name
-    pub const SERVICE_NAME: &str = "filescale.v1.HeartbeatService";
-    impl<T> tonic::server::NamedService for HeartbeatServiceServer<T> {
+    pub const SERVICE_NAME: &str = "filescale.v1.CommunicationService";
+    impl<T> tonic::server::NamedService for CommunicationServiceServer<T> {
         const NAME: &'static str = SERVICE_NAME;
     }
 }
@@ -307,6 +322,8 @@ pub mod register_service_client {
     )]
     use tonic::codegen::*;
     use tonic::codegen::http::Uri;
+    /** Service to register client at server
+*/
     #[derive(Debug, Clone)]
     pub struct RegisterServiceClient<T> {
         inner: tonic::client::Grpc<T>,
@@ -434,6 +451,8 @@ pub mod register_service_server {
             tonic::Status,
         >;
     }
+    /** Service to register client at server
+*/
     #[derive(Debug)]
     pub struct RegisterServiceServer<T> {
         inner: Arc<T>,
